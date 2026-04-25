@@ -12,14 +12,14 @@ import beauty from "@/assets/reel-beauty.jpg";
 import travel from "@/assets/reel-travel.jpg";
 import gaming from "@/assets/reel-gaming.jpg";
 
-export const Route = createFileRoute("/feels")({
+export const Route = createFileRoute("/reels")({
   head: () => ({ meta: [
-    { title: "Our Feels — ReelFactory" },
+    { title: "Our Reels — ReelFactory" },
     { name: "description", content: "A curated showcase of our best short-form work across fashion, food, tech, lifestyle, fitness and more." },
-    { property: "og:title", content: "Our Feels — ReelFactory" },
+    { property: "og:title", content: "Our Reels — ReelFactory" },
     { property: "og:description", content: "Reels that move people — explore our recent work." },
   ] }),
-  component: FeelsPage,
+  component: ReelsPage,
 });
 
 const reels = [
@@ -35,14 +35,14 @@ const reels = [
 
 const categories = ["All", "Fashion", "Food", "Tech", "Lifestyle", "Fitness", "Beauty", "Travel", "Gaming"];
 
-function FeelsPage() {
+function ReelsPage() {
   const [filter, setFilter] = useState("All");
   const filtered = filter === "All" ? reels : reels.filter((r) => r.category === filter);
 
   return (
     <SiteLayout>
       <Section className="!pt-16 !pb-8">
-        <SectionHeading eyebrow="Our Feels" title="Reels that move people" subtitle="A look into our world — curated short-form work across industries." />
+        <SectionHeading eyebrow="Our Reels" title="Reels that move people" subtitle="A look into our world — curated short-form work across industries." />
       </Section>
 
       <Section className="!pt-0 !pb-8">
