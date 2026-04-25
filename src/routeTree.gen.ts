@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ReelsRouteImport } from './routes/reels'
 import { Route as FeelsRouteImport } from './routes/feels'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ArtistsRouteImport } from './routes/artists'
@@ -20,6 +21,11 @@ import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReelsRoute = ReelsRouteImport.update({
+  id: '/reels',
+  path: '/reels',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeelsRoute = FeelsRouteImport.update({
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/feels': typeof FeelsRoute
+  '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
   '/artists/$slug': typeof ArtistsSlugRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/feels': typeof FeelsRoute
+  '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
   '/artists/$slug': typeof ArtistsSlugRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/feels': typeof FeelsRoute
+  '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
   '/artists/$slug': typeof ArtistsSlugRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/artists'
     | '/contact'
     | '/feels'
+    | '/reels'
     | '/services'
     | '/artists/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/artists'
     | '/contact'
     | '/feels'
+    | '/reels'
     | '/services'
     | '/artists/$slug'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/artists'
     | '/contact'
     | '/feels'
+    | '/reels'
     | '/services'
     | '/artists/$slug'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   ArtistsRoute: typeof ArtistsRouteWithChildren
   ContactRoute: typeof ContactRoute
   FeelsRoute: typeof FeelsRoute
+  ReelsRoute: typeof ReelsRoute
   ServicesRoute: typeof ServicesRoute
 }
 
@@ -127,6 +140,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reels': {
+      id: '/reels'
+      path: '/reels'
+      fullPath: '/reels'
+      preLoaderRoute: typeof ReelsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feels': {
@@ -191,6 +211,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArtistsRoute: ArtistsRouteWithChildren,
   ContactRoute: ContactRoute,
   FeelsRoute: FeelsRoute,
+  ReelsRoute: ReelsRoute,
   ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
