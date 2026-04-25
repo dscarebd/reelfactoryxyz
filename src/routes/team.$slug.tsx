@@ -255,6 +255,53 @@ function TeamMemberProfile() {
         </div>
       </section>
 
+      {/* CONTACT DETAILS */}
+      {(member.email || member.phone || member.address) && (
+        <Section className="!pt-0">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {member.email && (
+              <a
+                href={`mailto:${member.email}`}
+                className="group flex items-center gap-4 p-5 rounded-2xl bg-card border hover:border-primary hover:shadow-lg transition"
+              >
+                <span className="w-11 h-11 inline-flex items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition">
+                  <Mail className="w-5 h-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Email</p>
+                  <p className="font-semibold truncate">{member.email}</p>
+                </div>
+              </a>
+            )}
+            {member.phone && (
+              <a
+                href={`tel:${member.phone}`}
+                className="group flex items-center gap-4 p-5 rounded-2xl bg-card border hover:border-primary hover:shadow-lg transition"
+              >
+                <span className="w-11 h-11 inline-flex items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition">
+                  <Phone className="w-5 h-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Phone</p>
+                  <p className="font-semibold truncate">{member.phone}</p>
+                </div>
+              </a>
+            )}
+            {member.address && (
+              <div className="flex items-center gap-4 p-5 rounded-2xl bg-card border">
+                <span className="w-11 h-11 inline-flex items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <MapPin className="w-5 h-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Based in</p>
+                  <p className="font-semibold">{member.address}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </Section>
+      )}
+
       {/* PORTFOLIO */}
       {works.length > 0 && (
         <Section>
