@@ -120,10 +120,10 @@ function HomePage() {
 
       {members.length > 0 && (
         <Section>
-          <SectionHeading eyebrow="Meet the team" title="The artists behind the magic" />
+          <SectionHeading eyebrow="Meet the team" title="The team behind the magic" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {members.map((m) => (
-              <Link key={m.id} to="/artists/$slug" params={{ slug: m.slug }} className="group bg-card rounded-3xl overflow-hidden border hover:shadow-xl hover:-translate-y-2 transition">
+              <Link key={m.id} to="/team/$slug" params={{ slug: m.slug }} className="group bg-card rounded-3xl overflow-hidden border hover:shadow-xl hover:-translate-y-2 transition">
                 <div className="aspect-square overflow-hidden bg-muted">
                   {m.photo_url && <img src={m.photo_url} alt={m.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />}
                 </div>

@@ -1,19 +1,19 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { Section } from "@/components/site/Section";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { Mail, Phone, ArrowLeft, Star, ChevronDown } from "lucide-react";
 
-export const Route = createFileRoute("/artists/$slug")({
-  component: ArtistProfile,
+export const Route = createFileRoute("/team/$slug")({
+  component: TeamMemberProfile,
 });
 
 type Member = { id: string; name: string; slug: string; role: string; photo_url: string | null; skills: string[] | null; phone: string | null; email: string | null; bio: string | null };
 type Review = { id: string; reviewer_name: string; rating: number; review_text: string };
 type FAQ = { id: string; question: string; answer: string };
 
-function ArtistProfile() {
+function TeamMemberProfile() {
   const { slug } = Route.useParams();
   const [member, setMember] = useState<Member | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -42,8 +42,8 @@ function ArtistProfile() {
     <SiteLayout>
       <Section>
         <div className="text-center py-20">
-          <h1 className="text-4xl font-display font-bold mb-4">Artist not found</h1>
-          <Link to="/artists" className="text-primary font-semibold">← Back to all artists</Link>
+          <h1 className="text-4xl font-display font-bold mb-4">Team member not found</h1>
+          <Link to="/team" className="text-primary font-semibold">← Back to the team</Link>
         </div>
       </Section>
     </SiteLayout>
@@ -52,8 +52,8 @@ function ArtistProfile() {
   return (
     <SiteLayout>
       <Section className="!pt-12">
-        <Link to="/artists" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-8">
-          <ArrowLeft className="w-4 h-4" /> All artists
+        <Link to="/team" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-8">
+          <ArrowLeft className="w-4 h-4" /> All team members
         </Link>
 
         <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-start">

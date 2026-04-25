@@ -9,14 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ReelsRouteImport } from './routes/reels'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as ArtistsRouteImport } from './routes/artists'
 import { Route as AdminPanelRfRouteImport } from './routes/admin-panel-rf'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
+import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -32,11 +37,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ArtistsRoute = ArtistsRouteImport.update({
-  id: '/artists',
-  path: '/artists',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminPanelRfRoute = AdminPanelRfRouteImport.update({
   id: '/admin-panel-rf',
   path: '/admin-panel-rf',
@@ -47,81 +47,88 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
+const TeamSlugRoute = TeamSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
-  getParentRoute: () => ArtistsRoute,
+  getParentRoute: () => TeamRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin-panel-rf': typeof AdminPanelRfRoute
-  '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
-  '/artists/$slug': typeof ArtistsSlugRoute
+  '/team': typeof TeamRouteWithChildren
+  '/team/$slug': typeof TeamSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-panel-rf': typeof AdminPanelRfRoute
-  '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
-  '/artists/$slug': typeof ArtistsSlugRoute
+  '/team': typeof TeamRouteWithChildren
+  '/team/$slug': typeof TeamSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin-panel-rf': typeof AdminPanelRfRoute
-  '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
-  '/artists/$slug': typeof ArtistsSlugRoute
+  '/team': typeof TeamRouteWithChildren
+  '/team/$slug': typeof TeamSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin-panel-rf'
-    | '/artists'
     | '/contact'
     | '/reels'
     | '/services'
-    | '/artists/$slug'
+    | '/team'
+    | '/team/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin-panel-rf'
-    | '/artists'
     | '/contact'
     | '/reels'
     | '/services'
-    | '/artists/$slug'
+    | '/team'
+    | '/team/$slug'
   id:
     | '__root__'
     | '/'
     | '/admin-panel-rf'
-    | '/artists'
     | '/contact'
     | '/reels'
     | '/services'
-    | '/artists/$slug'
+    | '/team'
+    | '/team/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminPanelRfRoute: typeof AdminPanelRfRoute
-  ArtistsRoute: typeof ArtistsRouteWithChildren
   ContactRoute: typeof ContactRoute
   ReelsRoute: typeof ReelsRoute
   ServicesRoute: typeof ServicesRoute
+  TeamRoute: typeof TeamRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -143,13 +150,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/artists': {
-      id: '/artists'
-      path: '/artists'
-      fullPath: '/artists'
-      preLoaderRoute: typeof ArtistsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin-panel-rf': {
       id: '/admin-panel-rf'
       path: '/admin-panel-rf'
@@ -164,34 +164,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/artists/$slug': {
-      id: '/artists/$slug'
+    '/team/$slug': {
+      id: '/team/$slug'
       path: '/$slug'
-      fullPath: '/artists/$slug'
-      preLoaderRoute: typeof ArtistsSlugRouteImport
-      parentRoute: typeof ArtistsRoute
+      fullPath: '/team/$slug'
+      preLoaderRoute: typeof TeamSlugRouteImport
+      parentRoute: typeof TeamRoute
     }
   }
 }
 
-interface ArtistsRouteChildren {
-  ArtistsSlugRoute: typeof ArtistsSlugRoute
+interface TeamRouteChildren {
+  TeamSlugRoute: typeof TeamSlugRoute
 }
 
-const ArtistsRouteChildren: ArtistsRouteChildren = {
-  ArtistsSlugRoute: ArtistsSlugRoute,
+const TeamRouteChildren: TeamRouteChildren = {
+  TeamSlugRoute: TeamSlugRoute,
 }
 
-const ArtistsRouteWithChildren =
-  ArtistsRoute._addFileChildren(ArtistsRouteChildren)
+const TeamRouteWithChildren = TeamRoute._addFileChildren(TeamRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminPanelRfRoute: AdminPanelRfRoute,
-  ArtistsRoute: ArtistsRouteWithChildren,
   ContactRoute: ContactRoute,
   ReelsRoute: ReelsRoute,
   ServicesRoute: ServicesRoute,
+  TeamRoute: TeamRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
