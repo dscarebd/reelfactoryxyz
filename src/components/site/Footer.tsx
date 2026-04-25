@@ -35,7 +35,7 @@ export function Footer() {
             <h4 className="font-display font-bold mb-3">Explore</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/services" className="hover:text-primary">Services</Link></li>
-              <li><Link to="/feels" className="hover:text-primary">Our Feels</Link></li>
+              <li><Link to="/reels" className="hover:text-primary">Our Reels</Link></li>
               <li><Link to="/artists" className="hover:text-primary">Artists</Link></li>
               <li><Link to="/contact" className="hover:text-primary">Contact</Link></li>
             </ul>
