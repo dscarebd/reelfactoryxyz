@@ -104,7 +104,7 @@ function HomePage() {
       </Section>
 
       <Section>
-        <SectionHeading eyebrow="Our Feels" title="Recent work that hits different" />
+        <SectionHeading eyebrow="Our Reels" title="Recent work that hits different" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[reelFashion, reelFood, reelLifestyle, reelTravel].map((src, i) => (
             <div key={i} className="relative aspect-[9/16] rounded-3xl overflow-hidden group cursor-pointer">
