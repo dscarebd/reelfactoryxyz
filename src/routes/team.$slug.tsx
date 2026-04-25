@@ -6,6 +6,7 @@ import { useEffect, useState, FormEvent } from "react";
 import {
   Mail,
   Phone,
+  MapPin,
   ArrowLeft,
   Star,
   ChevronDown,
@@ -37,6 +38,7 @@ type Member = {
   skills: string[] | null;
   phone: string | null;
   email: string | null;
+  address: string | null;
   bio: string | null;
   availability_status: string | null;
   tagline: string | null;
