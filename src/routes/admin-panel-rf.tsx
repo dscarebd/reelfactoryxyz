@@ -115,7 +115,7 @@ function MembersTab() {
             <div className="p-4">
               <h3 className="font-display font-bold">{m.name}</h3>
               <p className="text-sm text-muted-foreground mb-1">{m.role}</p>
-              <p className="text-xs text-muted-foreground mb-3 font-mono">/artists/{m.slug}</p>
+              <p className="text-xs text-muted-foreground mb-3 font-mono">/team/{m.slug}</p>
               <div className="flex gap-2">
                 <button onClick={() => setEditing(m)} className="flex-1 px-3 py-1.5 rounded-lg bg-muted text-sm font-semibold">Edit</button>
                 <button onClick={() => remove(m.id)} className="px-3 py-1.5 rounded-lg bg-destructive/10 text-destructive"><Trash2 className="w-4 h-4" /></button>
@@ -131,7 +131,7 @@ function MembersTab() {
             <h3 className="text-xl font-display font-bold mb-4">{editing.id ? "Edit" : "Add"} Member</h3>
             <div className="space-y-3">
               <Field label="Name *"><input value={editing.name || ""} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="input" /></Field>
-              {editing.name && <p className="text-xs text-muted-foreground">URL: /artists/<b>{slugify(editing.name)}</b></p>}
+              {editing.name && <p className="text-xs text-muted-foreground">URL: /team/<b>{slugify(editing.name)}</b></p>}
               <Field label="Role *"><input value={editing.role || ""} onChange={(e) => setEditing({ ...editing, role: e.target.value })} className="input" /></Field>
               <Field label="Photo">
                 <div className="flex items-center gap-3">
