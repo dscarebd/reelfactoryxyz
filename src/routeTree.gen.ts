@@ -9,38 +9,154 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as FeelsRouteImport } from './routes/feels'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ArtistsRouteImport } from './routes/artists'
+import { Route as AdminPanelRfRouteImport } from './routes/admin-panel-rf'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
 
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeelsRoute = FeelsRouteImport.update({
+  id: '/feels',
+  path: '/feels',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArtistsRoute = ArtistsRouteImport.update({
+  id: '/artists',
+  path: '/artists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPanelRfRoute = AdminPanelRfRouteImport.update({
+  id: '/admin-panel-rf',
+  path: '/admin-panel-rf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ArtistsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin-panel-rf': typeof AdminPanelRfRoute
+  '/artists': typeof ArtistsRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/feels': typeof FeelsRoute
+  '/services': typeof ServicesRoute
+  '/artists/$slug': typeof ArtistsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin-panel-rf': typeof AdminPanelRfRoute
+  '/artists': typeof ArtistsRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/feels': typeof FeelsRoute
+  '/services': typeof ServicesRoute
+  '/artists/$slug': typeof ArtistsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin-panel-rf': typeof AdminPanelRfRoute
+  '/artists': typeof ArtistsRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/feels': typeof FeelsRoute
+  '/services': typeof ServicesRoute
+  '/artists/$slug': typeof ArtistsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin-panel-rf'
+    | '/artists'
+    | '/contact'
+    | '/feels'
+    | '/services'
+    | '/artists/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin-panel-rf'
+    | '/artists'
+    | '/contact'
+    | '/feels'
+    | '/services'
+    | '/artists/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin-panel-rf'
+    | '/artists'
+    | '/contact'
+    | '/feels'
+    | '/services'
+    | '/artists/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminPanelRfRoute: typeof AdminPanelRfRoute
+  ArtistsRoute: typeof ArtistsRouteWithChildren
+  ContactRoute: typeof ContactRoute
+  FeelsRoute: typeof FeelsRoute
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feels': {
+      id: '/feels'
+      path: '/feels'
+      fullPath: '/feels'
+      preLoaderRoute: typeof FeelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/artists': {
+      id: '/artists'
+      path: '/artists'
+      fullPath: '/artists'
+      preLoaderRoute: typeof ArtistsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin-panel-rf': {
+      id: '/admin-panel-rf'
+      path: '/admin-panel-rf'
+      fullPath: '/admin-panel-rf'
+      preLoaderRoute: typeof AdminPanelRfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +164,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/artists/$slug': {
+      id: '/artists/$slug'
+      path: '/$slug'
+      fullPath: '/artists/$slug'
+      preLoaderRoute: typeof ArtistsSlugRouteImport
+      parentRoute: typeof ArtistsRoute
+    }
   }
 }
 
+interface ArtistsRouteChildren {
+  ArtistsSlugRoute: typeof ArtistsSlugRoute
+}
+
+const ArtistsRouteChildren: ArtistsRouteChildren = {
+  ArtistsSlugRoute: ArtistsSlugRoute,
+}
+
+const ArtistsRouteWithChildren =
+  ArtistsRoute._addFileChildren(ArtistsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminPanelRfRoute: AdminPanelRfRoute,
+  ArtistsRoute: ArtistsRouteWithChildren,
+  ContactRoute: ContactRoute,
+  FeelsRoute: FeelsRoute,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
