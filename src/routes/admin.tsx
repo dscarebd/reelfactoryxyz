@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPanel,
 });
 
-type Member = { id: string; name: string; slug: string; role: string; photo_url: string | null; skills: string[] | null; phone: string | null; email: string | null; bio: string | null; display_order: number | null };
+type Member = { id: string; name: string; slug: string; role: string; photo_url: string | null; skills: string[] | null; phone: string | null; email: string | null; address: string | null; bio: string | null; display_order: number | null };
 type Review = { id: string; member_id: string; reviewer_name: string; rating: number; review_text: string };
 type FAQ = { id: string; member_id: string; question: string; answer: string };
 type Submission = { id: string; name: string; email: string; message: string; created_at: string };
