@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,8 +12,18 @@ export const Route = createFileRoute("/team")({
     { property: "og:title", content: "Our Team — ReelFactory" },
     { property: "og:description", content: "The talented team crafting reels for brands worldwide." },
   ] }),
-  component: TeamPage,
+  component: TeamRouteShell,
 });
+
+function TeamRouteShell() {
+  const location = useLocation();
+
+  if (location.pathname !== "/team") {
+    return <Outlet />;
+  }
+
+  return <TeamPage />;
+}
 
 type Member = { id: string; name: string; slug: string; role: string; photo_url: string | null; skills: string[] | null };
 
