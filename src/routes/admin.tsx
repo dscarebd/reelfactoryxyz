@@ -74,6 +74,7 @@ function MembersTab() {
     const payload = {
       name: editing.name, slug, role: editing.role, photo_url: editing.photo_url || null,
       skills: editing.skills || [], phone: editing.phone || null, email: editing.email || null,
+      address: editing.address || null,
       bio: editing.bio || null, display_order: editing.display_order || 0,
     };
     const { error } = editing.id
