@@ -146,6 +146,7 @@ function MembersTab() {
               <Field label="Skills (comma separated)"><input value={(editing.skills || []).join(", ")} onChange={(e) => setEditing({ ...editing, skills: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} className="input" /></Field>
               <Field label="Phone"><input value={editing.phone || ""} onChange={(e) => setEditing({ ...editing, phone: e.target.value })} className="input" /></Field>
               <Field label="Email"><input value={editing.email || ""} onChange={(e) => setEditing({ ...editing, email: e.target.value })} className="input" /></Field>
+              <Field label="Address / Location"><input value={editing.address || ""} onChange={(e) => setEditing({ ...editing, address: e.target.value })} placeholder="e.g. San Francisco, USA" className="input" /></Field>
               <Field label="Bio"><textarea value={editing.bio || ""} onChange={(e) => setEditing({ ...editing, bio: e.target.value })} rows={4} className="input" /></Field>
               <Field label="Display order"><input type="number" value={editing.display_order || 0} onChange={(e) => setEditing({ ...editing, display_order: +e.target.value })} className="input" /></Field>
             </div>
