@@ -13,6 +13,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as FeelsRouteImport } from './routes/feels'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ArtistsRouteImport } from './routes/artists'
+import { Route as AdminPanelRfRouteImport } from './routes/admin-panel-rf'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
 
@@ -36,6 +37,11 @@ const ArtistsRoute = ArtistsRouteImport.update({
   path: '/artists',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPanelRfRoute = AdminPanelRfRouteImport.update({
+  id: '/admin-panel-rf',
+  path: '/admin-panel-rf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,6 +55,7 @@ const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin-panel-rf': typeof AdminPanelRfRoute
   '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/feels': typeof FeelsRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin-panel-rf': typeof AdminPanelRfRoute
   '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/feels': typeof FeelsRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin-panel-rf': typeof AdminPanelRfRoute
   '/artists': typeof ArtistsRouteWithChildren
   '/contact': typeof ContactRoute
   '/feels': typeof FeelsRoute
@@ -76,16 +85,25 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin-panel-rf'
     | '/artists'
     | '/contact'
     | '/feels'
     | '/services'
     | '/artists/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/artists' | '/contact' | '/feels' | '/services' | '/artists/$slug'
+  to:
+    | '/'
+    | '/admin-panel-rf'
+    | '/artists'
+    | '/contact'
+    | '/feels'
+    | '/services'
+    | '/artists/$slug'
   id:
     | '__root__'
     | '/'
+    | '/admin-panel-rf'
     | '/artists'
     | '/contact'
     | '/feels'
@@ -95,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminPanelRfRoute: typeof AdminPanelRfRoute
   ArtistsRoute: typeof ArtistsRouteWithChildren
   ContactRoute: typeof ContactRoute
   FeelsRoute: typeof FeelsRoute
@@ -131,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArtistsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin-panel-rf': {
+      id: '/admin-panel-rf'
+      path: '/admin-panel-rf'
+      fullPath: '/admin-panel-rf'
+      preLoaderRoute: typeof AdminPanelRfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -161,6 +187,7 @@ const ArtistsRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminPanelRfRoute: AdminPanelRfRoute,
   ArtistsRoute: ArtistsRouteWithChildren,
   ContactRoute: ContactRoute,
   FeelsRoute: FeelsRoute,
