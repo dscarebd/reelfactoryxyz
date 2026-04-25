@@ -155,8 +155,8 @@ function TeamMemberProfile() {
                 {isAvailable && (
                   <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur border shadow-lg">
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: "oklch(0.72 0.18 150)" }} />
+                      <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: "oklch(0.65 0.2 150)" }} />
                     </span>
                     <span className="text-xs font-bold uppercase tracking-wider">Available</span>
                   </div>
