@@ -13,7 +13,7 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ReelsRouteImport } from './routes/reels'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AdminPanelRfRouteImport } from './routes/admin-panel-rf'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamSlugRouteImport } from './routes/team.$slug'
 
@@ -37,9 +37,9 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminPanelRfRoute = AdminPanelRfRouteImport.update({
-  id: '/admin-panel-rf',
-  path: '/admin-panel-rf',
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,7 +55,7 @@ const TeamSlugRoute = TeamSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin-panel-rf': typeof AdminPanelRfRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
@@ -64,7 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin-panel-rf': typeof AdminPanelRfRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
@@ -74,7 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin-panel-rf': typeof AdminPanelRfRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/reels': typeof ReelsRoute
   '/services': typeof ServicesRoute
@@ -85,7 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin-panel-rf'
+    | '/admin'
     | '/contact'
     | '/reels'
     | '/services'
@@ -94,7 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin-panel-rf'
+    | '/admin'
     | '/contact'
     | '/reels'
     | '/services'
@@ -103,7 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/admin-panel-rf'
+    | '/admin'
     | '/contact'
     | '/reels'
     | '/services'
@@ -113,7 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminPanelRfRoute: typeof AdminPanelRfRoute
+  AdminRoute: typeof AdminRoute
   ContactRoute: typeof ContactRoute
   ReelsRoute: typeof ReelsRoute
   ServicesRoute: typeof ServicesRoute
@@ -150,11 +150,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin-panel-rf': {
-      id: '/admin-panel-rf'
-      path: '/admin-panel-rf'
-      fullPath: '/admin-panel-rf'
-      preLoaderRoute: typeof AdminPanelRfRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -186,7 +186,7 @@ const TeamRouteWithChildren = TeamRoute._addFileChildren(TeamRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminPanelRfRoute: AdminPanelRfRoute,
+  AdminRoute: AdminRoute,
   ContactRoute: ContactRoute,
   ReelsRoute: ReelsRoute,
   ServicesRoute: ServicesRoute,
