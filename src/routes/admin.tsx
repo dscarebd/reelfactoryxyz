@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Trash2, Plus, Save, Users, MessageSquare, HelpCircle, Inbox, Upload, Sparkles } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 
-export const Route = createFileRoute("/admin-panel-rf")({
+export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — ReelFactory" }, { name: "robots", content: "noindex,nofollow" }] }),
   component: AdminPanel,
 });
