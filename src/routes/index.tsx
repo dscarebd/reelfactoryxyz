@@ -56,7 +56,7 @@ function HomePage() {
               <Link to="/contact" className="px-6 py-3.5 rounded-full gradient-btn text-primary-foreground font-semibold shadow-lg shadow-primary/30 hover:scale-105 transition inline-flex items-center gap-2">
                 Start Your Project <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link to="/feels" className="px-6 py-3.5 rounded-full bg-card border-2 font-semibold hover:bg-muted transition">Watch Our Feels</Link>
+              <Link to="/reels" className="px-6 py-3.5 rounded-full bg-card border-2 font-semibold hover:bg-muted transition">Watch Our Reels</Link>
             </div>
           </div>
           <div className="relative animate-fade-up" style={{ animationDelay: "0.2s" }}>
