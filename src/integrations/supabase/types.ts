@@ -14,7 +14,145 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      member_faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          display_order: number | null
+          id: string
+          member_id: string
+          question: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          member_id: string
+          question: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          member_id?: string
+          question?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_faqs_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_reviews: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string
+          rating: number
+          review_text: string
+          reviewer_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id: string
+          rating: number
+          review_text: string
+          reviewer_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string
+          rating?: number
+          review_text?: string
+          reviewer_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_reviews_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_members: {
+        Row: {
+          bio: string | null
+          created_at: string
+          display_order: number | null
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          photo_url: string | null
+          role: string
+          skills: string[] | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          display_order?: number | null
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          photo_url?: string | null
+          role: string
+          skills?: string[] | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          display_order?: number | null
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          photo_url?: string | null
+          role?: string
+          skills?: string[] | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
