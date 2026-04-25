@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPanel,
 });
 
-type Member = { id: string; name: string; slug: string; role: string; photo_url: string | null; skills: string[] | null; phone: string | null; email: string | null; bio: string | null; display_order: number | null };
+type Member = { id: string; name: string; slug: string; role: string; photo_url: string | null; skills: string[] | null; phone: string | null; email: string | null; address: string | null; bio: string | null; display_order: number | null };
 type Review = { id: string; member_id: string; reviewer_name: string; rating: number; review_text: string };
 type FAQ = { id: string; member_id: string; question: string; answer: string };
 type Submission = { id: string; name: string; email: string; message: string; created_at: string };
@@ -74,6 +74,7 @@ function MembersTab() {
     const payload = {
       name: editing.name, slug, role: editing.role, photo_url: editing.photo_url || null,
       skills: editing.skills || [], phone: editing.phone || null, email: editing.email || null,
+      address: editing.address || null,
       bio: editing.bio || null, display_order: editing.display_order || 0,
     };
     const { error } = editing.id
@@ -145,6 +146,7 @@ function MembersTab() {
               <Field label="Skills (comma separated)"><input value={(editing.skills || []).join(", ")} onChange={(e) => setEditing({ ...editing, skills: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} className="input" /></Field>
               <Field label="Phone"><input value={editing.phone || ""} onChange={(e) => setEditing({ ...editing, phone: e.target.value })} className="input" /></Field>
               <Field label="Email"><input value={editing.email || ""} onChange={(e) => setEditing({ ...editing, email: e.target.value })} className="input" /></Field>
+              <Field label="Address / Location"><input value={editing.address || ""} onChange={(e) => setEditing({ ...editing, address: e.target.value })} placeholder="e.g. San Francisco, USA" className="input" /></Field>
               <Field label="Bio"><textarea value={editing.bio || ""} onChange={(e) => setEditing({ ...editing, bio: e.target.value })} rows={4} className="input" /></Field>
               <Field label="Display order"><input type="number" value={editing.display_order || 0} onChange={(e) => setEditing({ ...editing, display_order: +e.target.value })} className="input" /></Field>
             </div>
