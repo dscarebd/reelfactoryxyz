@@ -38,6 +38,75 @@ export type Database = {
         }
         Relationships: []
       }
+      member_bookings: {
+        Row: {
+          budget: string | null
+          created_at: string
+          email: string
+          id: string
+          member_id: string
+          message: string
+          name: string
+          project_type: string | null
+        }
+        Insert: {
+          budget?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          member_id: string
+          message: string
+          name: string
+          project_type?: string | null
+        }
+        Update: {
+          budget?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          member_id?: string
+          message?: string
+          name?: string
+          project_type?: string | null
+        }
+        Relationships: []
+      }
+      member_experience: {
+        Row: {
+          company: string | null
+          created_at: string
+          description: string | null
+          display_order: number | null
+          end_year: number | null
+          id: string
+          member_id: string
+          start_year: number | null
+          title: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          end_year?: number | null
+          id?: string
+          member_id: string
+          start_year?: number | null
+          title: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          end_year?: number | null
+          id?: string
+          member_id?: string
+          start_year?: number | null
+          title?: string
+        }
+        Relationships: []
+      }
       member_faqs: {
         Row: {
           answer: string
@@ -108,8 +177,66 @@ export type Database = {
           },
         ]
       }
+      member_socials: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string
+          platform: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id: string
+          platform: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string
+          platform?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      member_works: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          image_url: string | null
+          link_url: string | null
+          member_id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          link_url?: string | null
+          member_id: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          link_url?: string | null
+          member_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
       team_members: {
         Row: {
+          availability_status: string | null
           bio: string | null
           created_at: string
           display_order: number | null
@@ -121,9 +248,11 @@ export type Database = {
           role: string
           skills: string[] | null
           slug: string
+          tagline: string | null
           updated_at: string
         }
         Insert: {
+          availability_status?: string | null
           bio?: string | null
           created_at?: string
           display_order?: number | null
@@ -135,9 +264,11 @@ export type Database = {
           role: string
           skills?: string[] | null
           slug: string
+          tagline?: string | null
           updated_at?: string
         }
         Update: {
+          availability_status?: string | null
           bio?: string | null
           created_at?: string
           display_order?: number | null
@@ -149,6 +280,7 @@ export type Database = {
           role?: string
           skills?: string[] | null
           slug?: string
+          tagline?: string | null
           updated_at?: string
         }
         Relationships: []
