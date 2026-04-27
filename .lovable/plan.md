@@ -1,104 +1,66 @@
+# Goal
 
-# ReelFactory.xyz — Reel Making Agency Website
+Make `bun run build` produce a **flat static site** in `dist/` — no `client/` or `server/` subfolders — so you can copy everything inside `dist/` straight into `public_html/` on your shared hosting and have the full site (including `/admin`) work.
 
-A bright, pastel, fully-animated international reel-making agency site in English, with AI-generated copy and imagery, dynamic team profiles, and a no-login admin panel.
+# Current situation
 
-## ⚠️ Security Note
-You chose **no login** for the admin panel. This means anyone who discovers the admin URL can edit team data, reviews, and FAQs. I'll place it at a non-obvious path (e.g. `/admin-panel-rf`), but **I strongly recommend adding at least a password later**. You can ask me to add one anytime.
+- The project uses **TanStack Start** which builds an SSR app for Cloudflare Workers. That's why you see `dist/client/` (browser assets) and `dist/server/` (worker code) after a build.
+- Good news: looking through your code, **no route uses server functions or server-side loaders**. Every page (home, services, team, profile, admin, etc.) talks to Lovable Cloud directly from the browser via the Supabase JS client.
+- That means the app can run as a pure **client-side SPA** with zero functionality loss. Admin panel, auth, team CRUD, address edits — all of it already runs client-side.
 
----
+# Plan
 
-## 🎨 Visual Style
-- **Palette:** Bright pastels — soft pink, peach, mint, lavender, sky blue, butter yellow on a clean white/cream background.
-- **Typography:** Playful, modern sans-serif headings + clean readable body font.
-- **Animations:** Smooth fade-ins on scroll, floating shapes in the background, gradient blob accents, hover scale effects, marquee for client logos, animated gradient buttons.
-- **Vibe:** Friendly, creative, Gen-Z reel-creator energy — international and professional.
+### 1. Switch Vite to a static SPA build
+Update `vite.config.ts` to override the Lovable TanStack preset so it:
+- Disables SSR / Cloudflare Worker output (no more `dist/server`)
+- Emits a single `index.html` + hashed assets directly into `dist/` (no `dist/client` subfolder)
+- Sets `outDir: "dist"` and `emptyOutDir: true`
+- Configures the TanStack Router plugin in **SPA mode** so client-side routing handles every URL
 
----
+The result: after `bun run build`, `dist/` will contain:
+```
+dist/
+  index.html
+  favicon.png
+  .htaccess
+  assets/
+    index-XXXX.js
+    index-XXXX.css
+    ...
+```
 
-## 📄 Pages
+### 2. Adjust the root route for SPA rendering
+`src/routes/__root.tsx` currently uses `shellComponent` with `<html>`/`<body>` tags — that's an SSR pattern. For a static SPA we'll:
+- Keep `head()` (titles & meta still work via TanStack Router's head manager)
+- Remove the `shellComponent` wrapper (the `<html>` shell will live in a real `index.html` that Vite emits)
+- Add a small `index.html` template at the project root that Vite uses as the SPA entry, with a `<div id="root">` and `<script type="module" src="/src/main.tsx">`
+- Add a tiny `src/main.tsx` that bootstraps the router with `RouterProvider` and `createRoot` (the standard SPA entry that Lovable's preset normally hides)
 
-### 1. Home (`/`)
-- Animated hero with bold tagline ("Reels that make brands unforgettable")
-- AI-generated hero illustration
-- Stats counter (reels delivered, brands served, views generated)
-- Service highlights (3–4 cards)
-- Featured artists carousel
-- Selected reviews
-- Animated CTA section
+### 3. Keep `.htaccess` for deep-link routing
+Your existing `public/.htaccess` already redirects unknown paths to `index.html`. Vite copies `public/` contents into `dist/` automatically, so after the build it will sit right next to `index.html` — perfect for Apache/cPanel/shared hosting. Deep links like `/admin`, `/team/aria-chen`, `/services` will all work after a refresh.
 
-### 2. Services (`/services`)
-- Full service offerings: Short-form reels, UGC content, brand storytelling, podcast clips, ad creatives, motion graphics
-- Each service: AI-generated icon/image, description, what's included
-- Process timeline (Brief → Concept → Shoot → Edit → Deliver)
-- Pricing-style packages (optional CTA blocks)
+### 4. Remove unused server-side files (optional cleanup)
+- `src/integrations/supabase/auth-middleware.ts` and `src/integrations/supabase/client.server.ts` are SSR-only and never imported by any route. They'll just be dead code in a SPA build — safe to leave, but I'll exclude them from the bundle so they don't cause build warnings.
+- `wrangler.jsonc` becomes irrelevant for static hosting (it's only used when deploying to Cloudflare). I'll leave it untouched so nothing else breaks.
 
-### 3. Reels / Feels (`/feels`)
-- Showcase grid of past reel work
-- AI-generated thumbnails representing different reel styles (fashion, food, tech, lifestyle, fitness)
-- Category filters
-- Hover preview animations
+### 5. Verify with a production build
+Run `bun run build` and confirm:
+- `dist/` contains `index.html`, `favicon.png`, `.htaccess`, and a single `assets/` folder
+- No `dist/client` or `dist/server` directories
+- Open `dist/index.html` via a simple static server and check `/`, `/team`, `/admin` all load
 
-### 4. Artists (`/artists`)
-- Grid of all team members with photo, name, role
-- Click → individual profile page at `/artists/[auto-slug-from-name]`
+# What this means for you
 
-### 5. Artist Profile (`/artists/$slug`)
-- Hero with photo, name, role
-- Bio
-- Skills (tag list)
-- Contact: email, phone (click to call/mail)
-- **Per-member reviews section**
-- **Per-member FAQ section**
-- Back to all artists
+✅ Upload the **contents of `dist/`** to `public_html/` — done.  
+✅ Admin panel works (it's purely client-side; auth via Lovable Cloud over HTTPS).  
+✅ Deep links and refresh work thanks to `.htaccess`.  
+⚠️ The Lovable preview here will keep working the same way — only the production build output changes.  
+⚠️ If in the future you add a server function or SSR loader, it won't run on a static host. For now, nothing in the project needs that.
 
-### 6. Contact (`/contact`)
-- Animated contact form (name, email, message) — submissions saved to database
-- Agency email, phone, social links
-- Decorative AI-generated illustration
+# Files to edit / create
 
----
-
-## 🛠 Admin Panel (`/admin-panel-rf` — no login)
-
-Tabs for managing:
-- **Team Members:** Add / edit / delete. Fields: name, photo upload, role, skills (tags), phone, email, bio. URL slug auto-regenerates from name on save.
-- **Per-member Reviews:** Add/edit/delete reviews tied to each artist (reviewer name, rating, text)
-- **Per-member FAQs:** Add/edit/delete Q&A tied to each artist
-- **Contact Submissions:** View messages received from contact form
-
----
-
-## 🔗 Auto-URL Behavior
-When you change an artist's name in the admin, the slug auto-updates (e.g. "John Doe" → `/artists/john-doe`, rename to "John Smith" → `/artists/john-smith`). Old URL will 404 (since you chose auto-slug without redirects).
-
----
-
-## 🗄 Backend (Lovable Cloud)
-Tables:
-- `team_members` (id, name, slug, role, photo_url, skills[], phone, email, bio)
-- `member_reviews` (id, member_id, reviewer_name, rating, review_text)
-- `member_faqs` (id, member_id, question, answer)
-- `contact_submissions` (id, name, email, message, created_at)
-- Storage bucket for team photos
-
-Public read access for site visitors; open insert/update/delete on admin tables (per your no-login choice).
-
----
-
-## 🤖 AI-Generated Content
-I'll use Lovable AI (Nano Banana) to generate:
-- Hero illustration (pastel, animated reel/camera theme)
-- Service category images (6 images)
-- Reel showcase thumbnails (8–10 images for the Feels page)
-- Contact page illustration
-- Default placeholder avatars
-- All marketing copy (headlines, service descriptions, sample reviews/FAQs) in polished international English
-
----
-
-## 🌍 Other Details
-- Fully English, international tone
-- Responsive (mobile, tablet, desktop)
-- SEO meta tags per page (title, description, og:image)
-- Smooth page transitions
+- **edit** `vite.config.ts` — disable SSR, set flat `dist/` output, configure router plugin for SPA
+- **edit** `src/routes/__root.tsx` — drop `shellComponent`, keep head/meta
+- **create** `index.html` (project root) — SPA HTML entry
+- **create** `src/main.tsx` — client bootstrap with `RouterProvider`
+- **keep as-is** `public/.htaccess`, all route files, all components, Supabase client
