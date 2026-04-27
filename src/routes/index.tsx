@@ -68,7 +68,7 @@ function HomePage() {
           </div>
           <div className="relative animate-fade-up" style={{ animationDelay: "0.2s" }}>
             <div className="absolute -inset-8 gradient-bg-soft rounded-[3rem] blur-2xl" />
-            <img src={heroImg} alt="Creator filming a reel" width={1536} height={1152} className="relative rounded-[2rem] shadow-2xl animate-float" />
+            <img src={heroImg} alt="Creator filming a reel" width={1536} height={1152} fetchPriority="high" decoding="async" className="relative rounded-[2rem] shadow-2xl animate-float" />
             <div className="absolute -bottom-4 -left-4 bg-card rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 animate-bounce-soft">
               <div className="w-10 h-10 rounded-full bg-mint flex items-center justify-center"><Heart className="w-5 h-5 text-pink fill-pink" /></div>
               <div><p className="text-xs text-muted-foreground">Engagement</p><p className="font-bold">+340%</p></div>
