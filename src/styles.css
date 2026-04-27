@@ -173,10 +173,25 @@
     transition: background-position 0.5s ease;
   }
   .gradient-btn:hover { background-position: 100% 100%; }
-  .blob {
+
+  /* Cheap painted blobs — no filter:blur, no animation. Uses radial-gradient for soft edge */
+  .blob-static {
     border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.55;
+    opacity: 0.5;
     pointer-events: none;
+    will-change: auto;
+  }
+  .blob-pink     { background: radial-gradient(circle at 50% 50%, var(--brand-pink) 0%, transparent 70%); }
+  .blob-mint     { background: radial-gradient(circle at 50% 50%, var(--brand-mint) 0%, transparent 70%); }
+  .blob-lavender { background: radial-gradient(circle at 50% 50%, var(--brand-lavender) 0%, transparent 70%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
+
