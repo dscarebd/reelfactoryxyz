@@ -34,8 +34,15 @@ function HomePage() {
   const [reviews, setReviews] = useState<{ id: string; reviewer_name: string; rating: number; review_text: string }[]>([]);
 
   useEffect(() => {
-    supabase.from("team_members").select("id,name,slug,role,photo_url").order("display_order").limit(4).then(({ data }) => setMembers(data || []));
-    supabase.from("member_reviews").select("id,reviewer_name,rating,review_text").limit(3).then(({ data }) => setReviews(data || []));
+    const run = () => {
+      supabase.from("team_members").select("id,name,slug,role,photo_url").order("display_order").limit(4).then(({ data }) => setMembers(data || []));
+      supabase.from("member_reviews").select("id,reviewer_name,rating,review_text").limit(3).then(({ data }) => setReviews(data || []));
+    };
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      setTimeout(run, 200);
+    }
   }, []);
 
   return (
