@@ -34,8 +34,15 @@ function HomePage() {
   const [reviews, setReviews] = useState<{ id: string; reviewer_name: string; rating: number; review_text: string }[]>([]);
 
   useEffect(() => {
-    supabase.from("team_members").select("id,name,slug,role,photo_url").order("display_order").limit(4).then(({ data }) => setMembers(data || []));
-    supabase.from("member_reviews").select("id,reviewer_name,rating,review_text").limit(3).then(({ data }) => setReviews(data || []));
+    const run = () => {
+      supabase.from("team_members").select("id,name,slug,role,photo_url").order("display_order").limit(4).then(({ data }) => setMembers(data || []));
+      supabase.from("member_reviews").select("id,reviewer_name,rating,review_text").limit(3).then(({ data }) => setReviews(data || []));
+    };
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      setTimeout(run, 200);
+    }
   }, []);
 
   return (
@@ -60,8 +67,8 @@ function HomePage() {
             </div>
           </div>
           <div className="relative animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            <div className="absolute -inset-8 gradient-bg-soft rounded-[3rem] blur-2xl" />
-            <img src={heroImg} alt="Creator filming a reel" width={1536} height={1152} className="relative rounded-[2rem] shadow-2xl animate-float" />
+            <div className="absolute -inset-8 gradient-bg-soft rounded-[3rem] blur-2xl opacity-70 pointer-events-none" aria-hidden />
+            <img src={heroImg} alt="Creator filming a reel" width={1536} height={1152} fetchPriority="high" decoding="async" className="relative rounded-[2rem] shadow-2xl animate-float" />
             <div className="absolute -bottom-4 -left-4 bg-card rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 animate-bounce-soft">
               <div className="w-10 h-10 rounded-full bg-mint flex items-center justify-center"><Heart className="w-5 h-5 text-pink fill-pink" /></div>
               <div><p className="text-xs text-muted-foreground">Engagement</p><p className="font-bold">+340%</p></div>
@@ -108,7 +115,7 @@ function HomePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[reelFashion, reelFood, reelLifestyle, reelTravel].map((src, i) => (
             <div key={i} className="relative aspect-[9/16] rounded-3xl overflow-hidden group cursor-pointer">
-              <img src={src} alt="Reel" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700" />
+              <img src={src} alt="Reel" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                 <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center"><Play className="w-7 h-7 text-primary fill-primary ml-1" /></div>
@@ -125,7 +132,7 @@ function HomePage() {
             {members.map((m) => (
               <Link key={m.id} to="/team/$slug" params={{ slug: m.slug }} className="group bg-card rounded-3xl overflow-hidden border hover:shadow-xl hover:-translate-y-2 transition">
                 <div className="aspect-square overflow-hidden bg-muted">
-                  {m.photo_url && <img src={m.photo_url} alt={m.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />}
+                  {m.photo_url && <img src={m.photo_url} alt={m.name} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />}
                 </div>
                 <div className="p-5">
                   <h3 className="font-display font-bold text-lg">{m.name}</h3>
