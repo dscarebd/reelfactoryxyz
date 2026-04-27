@@ -132,7 +132,7 @@ function HomePage() {
             {members.map((m) => (
               <Link key={m.id} to="/team/$slug" params={{ slug: m.slug }} className="group bg-card rounded-3xl overflow-hidden border hover:shadow-xl hover:-translate-y-2 transition">
                 <div className="aspect-square overflow-hidden bg-muted">
-                  {m.photo_url && <img src={m.photo_url} alt={m.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />}
+                  {m.photo_url && <img src={m.photo_url} alt={m.name} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />}
                 </div>
                 <div className="p-5">
                   <h3 className="font-display font-bold text-lg">{m.name}</h3>
