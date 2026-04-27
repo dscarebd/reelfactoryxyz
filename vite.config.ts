@@ -12,10 +12,10 @@ import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
-export default ({ command }: { command: "build" | "serve" }) => {
+export default defineConfig(async (env) => {
   // Production build: flat static SPA in dist/
-  if (command === "build") {
-    return defineConfig({
+  if (env.command === "build") {
+    return {
       plugins: [
         tsConfigPaths(),
         tanstackRouter({
@@ -34,8 +34,8 @@ export default ({ command }: { command: "build" | "serve" }) => {
         outDir: "dist",
         emptyOutDir: true,
         sourcemap: false,
-        // Prevent the SSR-only Supabase helpers from being pulled into the SPA bundle
         rollupOptions: {
+          // Keep SSR-only Supabase helpers out of the SPA bundle
           external: [
             /\.server\.[tj]sx?$/,
             "@/integrations/supabase/auth-middleware",
@@ -43,9 +43,10 @@ export default ({ command }: { command: "build" | "serve" }) => {
           ],
         },
       },
-    });
+    };
   }
 
-  // Dev / preview inside Lovable: keep the official preset
-  return defineLovableConfig();
-};
+  // Dev / preview inside Lovable: keep the official preset (it may be async)
+  const lovable = defineLovableConfig();
+  return await lovable;
+});
