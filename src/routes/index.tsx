@@ -115,7 +115,7 @@ function HomePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[reelFashion, reelFood, reelLifestyle, reelTravel].map((src, i) => (
             <div key={i} className="relative aspect-[9/16] rounded-3xl overflow-hidden group cursor-pointer">
-              <img src={src} alt="Reel" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700" />
+              <img src={src} alt="Reel" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                 <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center"><Play className="w-7 h-7 text-primary fill-primary ml-1" /></div>
