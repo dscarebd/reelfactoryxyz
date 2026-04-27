@@ -5,14 +5,16 @@
 //   directly into shared-hosting public_html/.
 
 import { defineConfig as defineLovableConfig } from "@lovable.dev/vite-tanstack-config";
-import { defineConfig } from "vite";
 import path from "node:path";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import type { ConfigEnv, UserConfig } from "vite";
 
-export default defineConfig(async (env) => {
+const lovableConfig = defineLovableConfig();
+
+export default async (env: ConfigEnv): Promise<UserConfig> => {
   // Production build: flat static SPA in dist/
   if (env.command === "build") {
     return {
@@ -46,7 +48,6 @@ export default defineConfig(async (env) => {
     };
   }
 
-  // Dev / preview inside Lovable: keep the official preset (it may be async)
-  const lovable = defineLovableConfig();
-  return await lovable;
-});
+  // Dev / preview inside Lovable: delegate to the official preset
+  return await (lovableConfig as (env: ConfigEnv) => Promise<UserConfig>)(env);
+};
